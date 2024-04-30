@@ -38,8 +38,10 @@
 	"dependencies": {
 		"bits-ui": "^0.21.6",
 		"clsx": "^2.1.1",
+		"cmdk-sv": "^0.0.17",
 		"oracledb": "^6.4.0",
 		"rdb": "^3.7.0",
+		"svelte-radix": "^1.1.0",
 		"tailwind-merge": "^2.3.0",
 		"tailwind-variants": "^0.2.1"
 	}

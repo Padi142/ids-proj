@@ -1,11 +1,16 @@
-import db from '$lib/db/client';
-import type { MenuItem } from '$lib/db/types/menuItem';
 import type { PageServerLoad } from './$types';
+import { getAllMenuItems } from '$lib/api/menuitem';
+import { getAllRestaurantVehicles } from '$lib/api/vehicles';
+import { getAllRestaurantVehicleItems } from '$lib/api/restaurantVehicleMenuItem';
 
 export const load: PageServerLoad = async () => {
-    const menu = await db.menuitem.getAll();
-    console.log(menu);
+    const menu = await getAllMenuItems();
+    const vehicles  = await getAllRestaurantVehicles();
+    const vehicleItems = await getAllRestaurantVehicleItems();
+
     return {
-        menu: menu.map(item => ({ ...item })) // Make a shallow copy of each menu item
+        menu:menu,
+        vehicles:vehicles,
+        vehicleItems:vehicleItems
     };
 };
