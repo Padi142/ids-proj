@@ -11,7 +11,7 @@ const map = rdb.map((x) => ({
 
 	restaurantVehicleMenuItem: x.table('restaurantvehiclemenuitem').map(({ column }) => ({
 		vehicle_id: column('vehicle_id').numeric().primary().notNullExceptInsert(),
-		menu_item_id: column('menu_item_id').numeric(),
+		menu_item_id: column('menu_item_id').numeric().primary().notNullExceptInsert(),
 		quantity: column('quantity').numeric()
 	})),
 

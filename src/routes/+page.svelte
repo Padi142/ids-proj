@@ -37,6 +37,8 @@
 	let open = false;
 	let dialogOpen = false;
 
+	let mlemmlem;
+
 	let selectedVehicle = 1;
 	let selectedMenuItem: number | null = null;
 
@@ -120,53 +122,60 @@
 					<p class="w-full p-4">
 						{item.description}
 					</p>
-					<p>
-						{item.quantity} ks
-					</p>
-					<p>
-						{item.price}Kč
-					</p>
-					<Dialog.Root open={dialogOpen} onOpenChange={(x) => (dialogOpen = x)}>
-						<Dialog.Trigger
-							on:click={() => (selectedMenuItem = item.menu_item_id)}
-							class={buttonVariants({ variant: 'outline' })}>Prodat</Dialog.Trigger
-						>
-						<Dialog.Content class="sm:max-w-[425px]">
-							<Dialog.Header>
-								<Dialog.Title>Prodat položku</Dialog.Title>
-								<Dialog.Description>Zvol počet kusů na prodej</Dialog.Description>
-							</Dialog.Header>
-							<div class="grid gap-4 py-4">
-								<div class="grid grid-cols-4 items-center gap-4">
-									<Label for="quantity" class="text-right">Počet</Label>
-									<Input id="quantity" value="1" class="col-span-3" />
+					<div class="flex flex-col">
+						<div class="flex items-center justify-between">
+							<p>
+								{item.quantity} ks
+							</p>
+							<p>
+								{item.price}Kč
+							</p>
+						</div>
+						<Dialog.Root open={dialogOpen} onOpenChange={(x) => (dialogOpen = x)}>
+							<Dialog.Trigger
+								on:click={() => (selectedMenuItem = item.menu_item_id)}
+								class={buttonVariants({ variant: 'outline' })}>Prodat</Dialog.Trigger
+							>
+							<Dialog.Content class="sm:max-w-[425px]">
+								<Dialog.Header>
+									<Dialog.Title>Prodat položku</Dialog.Title>
+									<Dialog.Description>Zvol počet kusů na prodej</Dialog.Description>
+								</Dialog.Header>
+								<div class="grid gap-4 py-4">
+									<div class="grid grid-cols-4 items-center gap-4">
+										<Label for="quantity" class="text-right">Počet</Label>
+										<Input id="quantity" bind:value={mlemmlem} class="col-span-3" />
+									</div>
 								</div>
-							</div>
-							<Dialog.Footer>
-								<Button
-									on:click={async () => {
-										dialogOpen = false;
-										const x = document.getElementById('quantity');
+								<Dialog.Footer>
+									<Button
+										on:click={async () => {
+											dialogOpen = false;
+											const x = document.getElementById('quantity');
 
-										const rawResponse = await fetch(document.location.href, {
-											method: 'POST',
-											headers: {
-												Accept: 'application/json',
-												'Content-Type': 'application/json'
-											},
-											body: JSON.stringify({
-												vehicle_id: selectedVehicle,
-												menu_item_id: selectedMenuItem,
-												quantity: x.value
-											})
-										});
-										selectedMenuItem = null;
-									}}
-									type="submit">Prodat</Button
-								>
-							</Dialog.Footer>
-						</Dialog.Content>
-					</Dialog.Root>
+											console.log(mlemmlem);
+											if (isNaN(+x.value)) return alert('Invalid quantity');
+
+											await fetch(document.location.href, {
+												method: 'POST',
+												headers: {
+													Accept: 'application/json',
+													'Content-Type': 'application/json'
+												},
+												body: JSON.stringify({
+													vehicle_id: selectedVehicle,
+													menu_item_id: selectedMenuItem,
+													quantity: x.value
+												})
+											});
+											selectedMenuItem = null;
+										}}
+										type="submit">Prodat</Button
+									>
+								</Dialog.Footer>
+							</Dialog.Content>
+						</Dialog.Root>
+					</div>
 				</div>
 			</Card.Content>
 		</Card.Root>

@@ -30,8 +30,9 @@ export const deleteRestaurantVehicleItem = async (vehicle_id: number, menu_item_
 	return true;
 }
 export const sellRestaurantVehicleItem = async (vehicle_id: number, menu_item_id: number, sold: number) => {
-	const filter = db.restaurantVehicleMenuItem.vehicle_id.equal(vehicle_id).and(db.restaurantVehicleMenuItem.menu_item_id.equal(menu_item_id));
-	const vehicleItem = await db.restaurantVehicleMenuItem.getOne(filter);
+	const vehicleItem = await db.restaurantVehicleMenuItem.getById(vehicle_id, menu_item_id);
+
+	console.log("VehicleItem", vehicleItem);
 
 	if (!vehicleItem) {
 		return false;
@@ -41,8 +42,6 @@ export const sellRestaurantVehicleItem = async (vehicle_id: number, menu_item_id
 		return false;
 	}
 
-	console.log(vehicleItem.quantity);
-	console.log(sold);
 	vehicleItem.quantity = vehicleItem.quantity! - +sold;
 
 	await vehicleItem.saveChanges();
