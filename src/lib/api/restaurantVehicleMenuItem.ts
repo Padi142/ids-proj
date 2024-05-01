@@ -22,3 +22,10 @@ export const createRestaurantVehicleItem = async (vehicle_id: number, menu_item_
 	});
 	return true;
 }
+
+export const deleteRestaurantVehicleItem = async (vehicle_id: number, menu_item_id: number): Promise<boolean> => {
+	const filter = db.restaurantVehicleMenuItem.vehicle_id.equal(vehicle_id).and(db.restaurantVehicleMenuItem.menu_item_id.equal(menu_item_id));
+
+	await db.restaurantVehicleMenuItem.delete(filter);
+	return true;
+}
