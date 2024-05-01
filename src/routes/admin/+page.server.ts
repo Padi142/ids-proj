@@ -2,6 +2,9 @@ import type { PageServerLoad } from './$types';
 import { getAllMenuItems } from '$lib/api/menuitem';
 import { getAllRestaurantVehicles } from '$lib/api/vehicles';
 import { getAllRestaurantVehicleItems } from '$lib/api/restaurantVehicleMenuItem';
+import { superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { formSchema } from './schema';
 
 export const load: PageServerLoad = async () => {
 	const menu = await getAllMenuItems();
@@ -11,6 +14,7 @@ export const load: PageServerLoad = async () => {
 	return {
 		menu:menu,
 		vehicles:vehicles,
-		vehicleItems:vehicleItems
+		vehicleItems:vehicleItems,
+		form: await superValidate(zod(formSchema)),
 	};
 };
