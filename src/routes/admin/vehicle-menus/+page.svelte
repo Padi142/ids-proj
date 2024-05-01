@@ -76,22 +76,23 @@
 			const item = baskets[baskets.length - 1].items[data.itemIndex];
 			if(baskets[basketIndex].items.filter((it) => it.id === item.id).length === 0){
 			baskets[basketIndex].items.push({ ...item });
+			baskets = baskets;
 			await createItem(baskets[basketIndex].id, item.id);
 			}
-			baskets = baskets;
 			hoveringOverBasket = null;
 			return;
 		}
 
 		const [item] = baskets[data.basketIndex].items.splice(data.itemIndex, 1);
+		baskets = baskets;
 		await deleteItem(baskets[data.basketIndex].id, item.id);
 
 		// Add the item to the drop target basket.
 		if(basketIndex !== -1 && baskets[basketIndex].items.filter((it) => it.id === item.id).length === 0){
 		baskets[basketIndex].items.push({ ...item });
+		baskets = baskets;
 		await createItem(baskets[basketIndex].id, item.id);
 		}
-		baskets = baskets;
 
 		hoveringOverBasket = null;
 	}
