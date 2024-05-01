@@ -9,14 +9,14 @@ import { formSchema } from './schema';
 import { fail } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async () => {
-	const menu = await getAllMenuItems();
-	const vehicles  = await getAllRestaurantVehicles();
-	const vehicleItems = await getAllRestaurantVehicleItems();
+	// const menu = await getAllMenuItems();
+	// const vehicles  = await getAllRestaurantVehicles();
+	// const vehicleItems = await getAllRestaurantVehicleItems();
 
 	return {
-		menu:menu,
-		vehicles:vehicles,
-		vehicleItems:vehicleItems,
+		// menu:menu,
+		// vehicles:vehicles,
+		// vehicleItems:vehicleItems,
 		form: await superValidate(zod(formSchema)),
 	};
 };

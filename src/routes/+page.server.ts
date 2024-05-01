@@ -4,9 +4,11 @@ import { getAllRestaurantVehicles } from '$lib/api/vehicles';
 import { getAllRestaurantVehicleItems } from '$lib/api/restaurantVehicleMenuItem';
 
 export const load: PageServerLoad = async () => {
-    const menu = await getAllMenuItems();
-    const vehicles  = await getAllRestaurantVehicles();
-    const vehicleItems = await getAllRestaurantVehicleItems();
+    const [menu, vehicles, vehicleItems] = await Promise.all([
+        getAllMenuItems(),
+        getAllRestaurantVehicles(),
+        getAllRestaurantVehicleItems()
+    ]);
 
     return {
         menu:menu,
