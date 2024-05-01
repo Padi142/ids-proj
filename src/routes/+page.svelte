@@ -69,7 +69,7 @@
 				{selectedValue}
 				<CaretSort class="w-4 h-4 ml-2 opacity-50 shrink-0" />
 			</Button>
-		</Popover.Trigger>3
+		</Popover.Trigger>
 		<Popover.Content class="w-[600px] p-0">
 			<Command.Root>
 				<Command.Input placeholder="Search vehicle..." class="h-9" />
