@@ -23,6 +23,7 @@
 			name:it.name,
 			description:it.description,
 			image:it.image,
+			price:it.price
 		};
 	});
 
@@ -45,8 +46,15 @@
 </script>
 
 <div
-	class="flex flex-col items-center justify-start bg-cover background-color background-image h-min-screen  pt-20 pb-20"
+	class="flex flex-col items-center justify-start bg-cover background-color background-image h-min-screen  pt-8 pb-20"
 >
+	<div class="w-full flex flex-row items-center justify-between px-14">
+		<div></div>
+		<a href="/admin">
+			Admin
+		</a>
+	</div>
+	<h1 class="text-4xl font-bold text-center text-slate-700">Restaurant Vehicle Menu</h1>
 	<div class="m-8">
 
 	<Popover.Root bind:open let:ids >
@@ -56,16 +64,16 @@
 				variant="outline"
 				role="combobox"
 				aria-expanded={open}
-				class="w-[200px] justify-between"
+				class="w-[600px] justify-between"
 			>
 				{selectedValue}
 				<CaretSort class="w-4 h-4 ml-2 opacity-50 shrink-0" />
 			</Button>
-		</Popover.Trigger>
-		<Popover.Content class="w-[200px] p-0">
+		</Popover.Trigger>3
+		<Popover.Content class="w-[600px] p-0">
 			<Command.Root>
 				<Command.Input placeholder="Search vehicle..." class="h-9" />
-				<Command.Empty>No framework found.</Command.Empty>
+				<Command.Empty>No vehicle found.</Command.Empty>
 				<Command.Group>
 					{#each vehicles as vehicle}
 						<Command.Item
@@ -92,19 +100,22 @@
 	</div>
 
 	{#each items as item}
-		<Card.Root class="m-4 w-[500px] shadow-xl hover:bg-slate-100 hover:shadow-2xl">
+		<Card.Root class="m-4 w-[600px] shadow-xl hover:bg-slate-100 hover:shadow-2xl">
 			<Card.Header>
 				<Card.Title class="text-center">{item.name}</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<div class="flex flex-row items-center justify-start">
+				<div class="flex flex-row items-center justify-between">
 					<img
 						src={item.image}
 						alt={item.image}
 						class="object-cover w-40 h-40 shadow-2xl rounded-xl"
 					/>
-					<p class="p-4">
+					<p class="p-4 w-full">
 						{item.description}
+					</p>
+					<p>
+						{item.price}Kč
 					</p>
 				</div>
 			</Card.Content>
