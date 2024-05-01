@@ -3,7 +3,7 @@ import { createRestaurantVehicleItem, deleteRestaurantVehicleItem } from '$lib/a
 export async function POST({ params, request }) {
 	const data = (await request.json()) as {vehicle_id: number, menu_item_id: number};
 
-	await createRestaurantVehicleItem(data.vehicle_id, data.menu_item_id, 1);
+	await createRestaurantVehicleItem(data.vehicle_id, data.menu_item_id, 20);
 	return new Response(JSON.stringify(true), {
 		headers: {
 			'Content-Type': 'application/json'
