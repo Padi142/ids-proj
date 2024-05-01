@@ -35,7 +35,7 @@
 
 	}
 
-	let baskets = data.vehicles.map((vehicle) => ({
+	let  baskets = data.vehicles.map((vehicle) => ({
 		id: vehicle.id,
 		items: data.vehicleItems
 			.filter((item) => item.vehicle_id === vehicle.id)
@@ -74,9 +74,10 @@
 
 		if (data.basketIndex === -1) {
 			const item = baskets[baskets.length - 1].items[data.itemIndex];
-			console.log(basketIndex)
+			if(baskets[basketIndex].items.filter((it) => it.id === item.id).length === 0){
 			baskets[basketIndex].items.push({ ...item });
 			await createItem(baskets[basketIndex].id, item.id);
+			}
 			baskets = baskets;
 			hoveringOverBasket = null;
 			return;
@@ -86,16 +87,18 @@
 		await deleteItem(baskets[data.basketIndex].id, item.id);
 
 		// Add the item to the drop target basket.
+		if(basketIndex !== -1 && baskets[basketIndex].items.filter((it) => it.id === item.id).length === 0){
 		baskets[basketIndex].items.push({ ...item });
 		await createItem(baskets[basketIndex].id, item.id);
-		// baskets = baskets;
+		}
+		baskets = baskets;
 
 		hoveringOverBasket = null;
 	}
 </script>
 
 <div
-	class="background-color background-image h-min-screen flex flex-col items-center justify-start bg-cover pb-20 pt-8"
+	class="flex flex-col items-center justify-start pt-8 pb-20 bg-cover background-color background-image h-min-screen"
 >
 	<p>All Items</p>
 		<ul
@@ -127,13 +130,13 @@
 						<img
 							src="https://www.tram-bus.cz/wp-content/uploads/2014/04/DSC_2430.jpg"
 							alt={data.vehicles[basketIndex].model}
-							class="rounded-xl object-cover shadow-2xl"
+							class="object-cover shadow-2xl rounded-xl"
 						/>
 					{:else}
 						<img
 							src="https://g.denik.cz/50/ef/z-kraje-poprve-otestovali-nove-vlaky-za-6-5-miliardy-podivejte-jak-vypadaji-jihomoravsky-kraj-01.jpg"
 							alt={data.vehicles[basketIndex].model}
-							class="rounded-xl object-cover shadow-2xl"
+							class="object-cover shadow-2xl rounded-xl"
 						/>
 					{/if}
 					<ul
@@ -149,7 +152,7 @@
 								draggable={true}
 								on:dragstart={(event) => dragStart(event, basketIndex, itemIndex)}
 							>
-								<div class="item w-full">
+								<div class="w-full item">
 									<ItemContainer {item} />
 								</div>
 							</li>
