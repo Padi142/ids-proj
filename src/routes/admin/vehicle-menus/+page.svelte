@@ -127,19 +127,6 @@
 					<h2 class="text-xl font-bold">
 						{data.vehicles[basketIndex].model + ' ' + data.vehicles[basketIndex].license_plate}
 					</h2>
-					{#if data.vehicles[basketIndex].model === 'tram'}
-						<img
-							src="https://www.tram-bus.cz/wp-content/uploads/2014/04/DSC_2430.jpg"
-							alt={data.vehicles[basketIndex].model}
-							class="object-cover shadow-2xl rounded-xl"
-						/>
-					{:else}
-						<img
-							src="https://g.denik.cz/50/ef/z-kraje-poprve-otestovali-nove-vlaky-za-6-5-miliardy-podivejte-jak-vypadaji-jihomoravsky-kraj-01.jpg"
-							alt={data.vehicles[basketIndex].model}
-							class="object-cover shadow-2xl rounded-xl"
-						/>
-					{/if}
 					<ul
 						class:hovering={hoveringOverBasket === basket.id}
 						on:dragenter={() => (hoveringOverBasket = basket.id)}
@@ -148,6 +135,19 @@
 						ondragover="return false"
 						class="w-full"
 					>
+						{#if data.vehicles[basketIndex].model === 'tram'}
+							<img
+								src="https://www.tram-bus.cz/wp-content/uploads/2014/04/DSC_2430.jpg"
+								alt={data.vehicles[basketIndex].model}
+								class="object-cover shadow-2xl rounded-xl"
+							/>
+						{:else}
+							<img
+								src="https://g.denik.cz/50/ef/z-kraje-poprve-otestovali-nove-vlaky-za-6-5-miliardy-podivejte-jak-vypadaji-jihomoravsky-kraj-01.jpg"
+								alt={data.vehicles[basketIndex].model}
+								class="object-cover shadow-2xl rounded-xl"
+							/>
+						{/if}
 						{#each basket.items as item, itemIndex (item)}
 							<li
 								draggable={true}
