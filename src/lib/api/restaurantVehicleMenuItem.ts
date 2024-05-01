@@ -7,15 +7,15 @@ export const getAllRestaurantVehicleItems = async (): Promise<RestaurantVehicleM
 		vehicle: true,
 		menuItem: true
 	});
-	return orders.map((order) =>  ({
+	return orders.map((order) => ({
 		vehicle_id: order.vehicle!.id!,
 		menu_item_id: order.menuItem!.id!,
 		quantity: order.quantity!
-	})) ; // Use the MenuItem class as a value
+	})); // Use the MenuItem class as a value
 };
 
 export const createRestaurantVehicleItem = async (vehicle_id: number, menu_item_id: number, quantity: number): Promise<boolean> => {
- await db.restaurantVehicleMenuItem.insert({
+	await db.restaurantVehicleMenuItem.insert({
 		vehicle_id,
 		menu_item_id,
 		quantity
@@ -28,4 +28,22 @@ export const deleteRestaurantVehicleItem = async (vehicle_id: number, menu_item_
 
 	await db.restaurantVehicleMenuItem.delete(filter);
 	return true;
+}
+export const sellRestaurantVehicleItem = async (vehicle_id: number, menu_item_id: number, sold: number) => {
+	const filter = db.restaurantVehicleMenuItem.vehicle_id.equal(vehicle_id).and(db.restaurantVehicleMenuItem.menu_item_id.equal(menu_item_id));
+	const vehicleItem = await db.restaurantVehicleMenuItem.getOne(filter);
+
+	if (!vehicleItem) {
+		return false;
+	}
+
+	if (vehicleItem.quantity! < sold) {
+		return false;
+	}
+
+	console.log(vehicleItem.quantity);
+	console.log(sold);
+	vehicleItem.quantity = vehicleItem.quantity! - +sold;
+
+	await vehicleItem.saveChanges();
 }

@@ -9,4 +9,5 @@ export const formSchema = z.object({
 		.refine((value) => /^\d*\.?\d+$/.test(value), 'Invalid number')
 });
 
+
 export type FormSchema = typeof formSchema;
