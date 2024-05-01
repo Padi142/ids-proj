@@ -27,3 +27,12 @@ export const getMenuItemsForCar = async (vehicleID: number): Promise<MenuItem[]>
 		}));
 	};
 
+export  const createMenuItem = async (name: string, description: string, image: string, price: number): Promise<boolean> => {
+	await db.menuitem.insert({
+		name,
+		description,
+		image,
+		price
+	});
+	return true;
+}

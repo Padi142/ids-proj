@@ -13,3 +13,12 @@ export const getAllRestaurantVehicleItems = async (): Promise<RestaurantVehicleM
 		quantity: order.quantity!
 	})) ; // Use the MenuItem class as a value
 };
+
+export const createRestaurantVehicleItem = async (vehicle_id: number, menu_item_id: number, quantity: number): Promise<boolean> => {
+ await db.restaurantVehicleMenuItem.insert({
+		vehicle_id,
+		menu_item_id,
+		quantity
+	});
+	return true;
+}
