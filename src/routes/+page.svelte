@@ -123,18 +123,18 @@
 						{item.description}
 					</p>
 					<div class="flex flex-col">
-						<div class="flex items-center justify-between">
-							<p>
-								{item.quantity} ks
+						<div class="flex items-center justify-between ">
+							<p class="p-4 text-sm">
+								{item.quantity}ks
 							</p>
-							<p>
+							<p class="text-green-500 text-lg">
 								{item.price}Kč
 							</p>
 						</div>
 						<Dialog.Root open={dialogOpen} onOpenChange={(x) => (dialogOpen = x)}>
 							<Dialog.Trigger
 								on:click={() => (selectedMenuItem = item.menu_item_id)}
-								class={buttonVariants({ variant: 'outline' })}>Prodat</Dialog.Trigger
+								class={buttonVariants({ variant: 'default' })}>Prodat</Dialog.Trigger
 							>
 							<Dialog.Content class="sm:max-w-[425px]">
 								<Dialog.Header>
