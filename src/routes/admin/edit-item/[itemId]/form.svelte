@@ -1,7 +1,6 @@
 <script lang="ts">
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
-	import { CreateItemFormSchema, type FormSchema } from "./create_schema";
 	import SuperDebug, {
 		type SuperValidated,
 		type Infer,
@@ -9,8 +8,11 @@
 	} from "sveltekit-superforms";
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import { Textarea } from '$lib/components/ui/textarea';
+	import { CreateItemFormSchema, type FormSchema } from '../../item/create_schema';
+	import { Button } from "$lib/components/ui/button/index.js";
 
 	export let data: SuperValidated<Infer<FormSchema>>;
+	export let onDelete : Function
 
 	const form = superForm(data, {
 		validators: zodClient(CreateItemFormSchema),
@@ -52,7 +54,12 @@
 		<Form.Description>Price</Form.Description>
 		<Form.FieldErrors />
 	</Form.Field>
+	<div class="flex flex-row items-center justify-between">
+
 	<Form.Button>Submit</Form.Button>
-<div class="pt-10" ></div>
-<SuperDebug data={$formData} />
+
+		<Button variant="destructive" on:click={() => onDelete()}>Delete</Button>
+	</div>
+	<div class="pt-10" ></div>
+	<SuperDebug data={$formData} />
 </form>

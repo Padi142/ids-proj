@@ -5,8 +5,11 @@
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { cn } from '$lib/utils.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -25,13 +28,19 @@
 				name: it.name,
 				description: it.description,
 				image: it.image,
-				price: it.price
+				price: it.price,
+				quantity: item.quantity,
+				menu_item_id: item.menu_item_id
 			};
 		});
 
 	let open = false;
+	let dialogOpen = false;
+
+	let mlemmlem;
 
 	let selectedVehicle = 1;
+	let selectedMenuItem: number | null = null;
 
 	$: selectedValue =
 		vehicles.find((f) => f.value === selectedVehicle)?.label ?? 'Select a vehicle...';
@@ -113,9 +122,60 @@
 					<p class="w-full p-4">
 						{item.description}
 					</p>
-					<p>
-						{item.price}Kč
-					</p>
+					<div class="flex flex-col">
+						<div class="flex items-center justify-between ">
+							<p class="p-4 text-sm">
+								{item.quantity}ks
+							</p>
+							<p class="text-green-500 text-lg">
+								{item.price}Kč
+							</p>
+						</div>
+						<Dialog.Root open={dialogOpen} onOpenChange={(x) => (dialogOpen = x)}>
+							<Dialog.Trigger
+								on:click={() => (selectedMenuItem = item.menu_item_id)}
+								class={buttonVariants({ variant: 'default' })}>Prodat</Dialog.Trigger
+							>
+							<Dialog.Content class="sm:max-w-[425px]">
+								<Dialog.Header>
+									<Dialog.Title>Prodat položku</Dialog.Title>
+									<Dialog.Description>Zvol počet kusů na prodej</Dialog.Description>
+								</Dialog.Header>
+								<div class="grid gap-4 py-4">
+									<div class="grid grid-cols-4 items-center gap-4">
+										<Label for="quantity" class="text-right">Počet</Label>
+										<Input id="quantity" bind:value={mlemmlem} class="col-span-3" />
+									</div>
+								</div>
+								<Dialog.Footer>
+									<Button
+										on:click={async () => {
+											dialogOpen = false;
+											const x = document.getElementById('quantity');
+
+											console.log(mlemmlem);
+											if (isNaN(+x.value)) return alert('Invalid quantity');
+
+											await fetch(document.location.href, {
+												method: 'POST',
+												headers: {
+													Accept: 'application/json',
+													'Content-Type': 'application/json'
+												},
+												body: JSON.stringify({
+													vehicle_id: selectedVehicle,
+													menu_item_id: selectedMenuItem,
+													quantity: x.value
+												})
+											});
+											selectedMenuItem = null;
+										}}
+										type="submit">Prodat</Button
+									>
+								</Dialog.Footer>
+							</Dialog.Content>
+						</Dialog.Root>
+					</div>
 				</div>
 			</Card.Content>
 		</Card.Root>

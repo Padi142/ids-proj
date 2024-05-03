@@ -1,11 +1,9 @@
 import type { Actions,PageServerLoad } from './$types';
 
-import { createMenuItem, getAllMenuItems } from '$lib/api/menuitem';
-import { getAllRestaurantVehicles } from '$lib/api/vehicles';
-import { getAllRestaurantVehicleItems } from '$lib/api/restaurantVehicleMenuItem';
+import { createMenuItem } from '$lib/api/menuitem';
 import {  superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { formSchema } from './schema';
+import { CreateItemFormSchema } from './create_schema';
 import { fail } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async () => {
@@ -17,13 +15,13 @@ export const load: PageServerLoad = async () => {
 		// menu:menu,
 		// vehicles:vehicles,
 		// vehicleItems:vehicleItems,
-		form: await superValidate(zod(formSchema)),
+		form: await superValidate(zod(CreateItemFormSchema)),
 	};
 };
 
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event, zod(formSchema));
+		const form = await superValidate(event, zod(CreateItemFormSchema));
 		if (!form.valid) {
 			return fail(400, {
 				form,

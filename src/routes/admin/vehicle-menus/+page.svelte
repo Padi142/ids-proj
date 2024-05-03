@@ -101,6 +101,10 @@
 <div
 	class="flex flex-col items-center justify-start pt-8 pb-20 bg-cover background-color background-image h-min-screen"
 >
+	<div class="flex w-full flex-row items-center justify-between px-14">
+		<div></div>
+		<a href="/admin"> Admin </a>
+	</div>
 	<p>All Items</p>
 		<ul
 			class:hovering={hoveringOverBasket === -1}
